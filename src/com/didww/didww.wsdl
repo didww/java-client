@@ -1,0 +1,750 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+             xmlns:tns="urn:didww" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/"
+             targetNamespace="urn:didww">
+<types>
+<xsd:schema targetNamespace="urn:didww">
+ <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+ <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/"/>
+ <xsd:complexType name="City">
+  <xsd:all>
+   <xsd:element name="city_id" type="xsd:string"/>
+   <xsd:element name="city_name" type="xsd:string"/>
+   <xsd:element name="city_prefix" type="xsd:string"/>
+   <xsd:element name="city_nxx_prefix" type="xsd:string"/>
+   <xsd:element name="setup" type="xsd:string"/>
+   <xsd:element name="monthly" type="xsd:string"/>
+   <xsd:element name="isavailable" type="xsd:int"/>
+   <xsd:element name="islnrrequired" type="xsd:int"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="Network">
+  <xsd:all>
+   <xsd:element name="network_name" type="xsd:string"/>
+   <xsd:element name="network_prefix" type="xsd:string"/>
+   <xsd:element name="cost_rate" type="xsd:string"/>
+   <xsd:element name="sell_rate" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="CitiesArray">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:City[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="NetworkArray">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Network[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="Regions">
+  <xsd:all>
+   <xsd:element name="country_name" type="xsd:string"/>
+   <xsd:element name="country_prefix" type="xsd:string"/>
+   <xsd:element name="country_iso" type="xsd:string"/>
+   <xsd:element name="cities" type="tns:CitiesArray"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="Country">
+  <xsd:all>
+   <xsd:element name="country_name" type="xsd:string"/>
+   <xsd:element name="country_prefix" type="xsd:string"/>
+   <xsd:element name="country_iso" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="Rates">
+  <xsd:all>
+   <xsd:element name="country_name" type="xsd:string"/>
+   <xsd:element name="country_prefix" type="xsd:string"/>
+   <xsd:element name="country_iso" type="xsd:string"/>
+   <xsd:element name="networks" type="tns:NetworkArray"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="RatesIn">
+  <xsd:all>
+   <xsd:element name="network_prefix" type="xsd:string"/>
+   <xsd:element name="sell_rate" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="RegionsList">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Regions[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="CountriesList">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Country[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="RatesList">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Rates[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="RatesListIn">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:RatesIn[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="DID">
+  <xsd:all>
+   <xsd:element name="did_id" type="xsd:int"/>
+   <xsd:element name="did_number" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="Region">
+  <xsd:all>
+   <xsd:element name="country_name" type="xsd:string"/>
+   <xsd:element name="city_name" type="xsd:string"/>
+   <xsd:element name="monthly" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="GlobalResponse">
+  <xsd:all>
+   <xsd:element name="result" type="xsd:string"/>
+   <xsd:element name="error" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="service_data">
+  <xsd:all>
+   <xsd:element name="result" type="xsd:int"/>
+   <xsd:element name="country_name" type="xsd:string"/>
+   <xsd:element name="country_iso" type="xsd:string"/>
+   <xsd:element name="city_name" type="xsd:string"/>
+   <xsd:element name="city_prefix" type="xsd:string"/>
+   <xsd:element name="city_id" type="xsd:int"/>
+   <xsd:element name="did_number" type="xsd:string"/>
+   <xsd:element name="did_status" type="xsd:string"/>
+   <xsd:element name="did_timeleft" type="xsd:string"/>
+   <xsd:element name="did_expire_date_gmt" type="xsd:string"/>
+   <xsd:element name="order_id" type="xsd:string"/>
+   <xsd:element name="order_status" type="xsd:string"/>
+   <xsd:element name="did_mapping_format" type="xsd:string"/>
+   <xsd:element name="did_setup" type="xsd:string"/>
+   <xsd:element name="did_monthly" type="xsd:string"/>
+   <xsd:element name="did_period" type="xsd:int"/>
+   <xsd:element name="autorenew_enable" type="xsd:string"/>
+   <xsd:element name="prepaid_balance" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="ServiceDataList">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:service_data[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="PrepaidBalanceList">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:prepaid_data[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="prepaid_data">
+  <xsd:all>
+   <xsd:element name="result" type="xsd:int"/>
+   <xsd:element name="error" type="xsd:string"/>
+   <xsd:element name="prepaid_balance" type="xsd:string"/>
+   <xsd:element name="customer_id" type="xsd:string"/>
+   <xsd:element name="prepaid_balance_amount" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="api_didwwdata">
+  <xsd:all>
+   <xsd:element name="result" type="xsd:int"/>
+   <xsd:element name="error" type="xsd:string"/>
+   <xsd:element name="api_version" type="xsd:string"/>
+   <xsd:element name="reseller_did_pricelist" type="xsd:string"/>
+   <xsd:element name="reseller_pstn_tariff" type="xsd:string"/>
+   <xsd:element name="reseller_id" type="xsd:int"/>
+   <xsd:element name="reseller_balance" type="xsd:string"/>
+   <xsd:element name="reseller_balance_status" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="SMS">
+  <xsd:all>
+   <xsd:element name="source" type="xsd:string"/>
+   <xsd:element name="destination" type="xsd:string"/>
+   <xsd:element name="success" type="xsd:int"/>
+   <xsd:element name="reason" type="xsd:string"/>
+   <xsd:element name="date_gmt" type="xsd:string"/>
+   <xsd:element name="customer_id" type="xsd:int"/>
+   <xsd:element name="reseller_billed_usd" type="xsd:string"/>
+   <xsd:element name="customer_billed_points" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="SMSArray">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:SMS[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="MappingDataIn">
+  <xsd:all>
+   <xsd:element name="map_type" type="xsd:string"/>
+   <xsd:element name="map_proto" type="xsd:string"/>
+   <xsd:element name="map_detail" type="xsd:string"/>
+   <xsd:element name="map_pref_server" type="xsd:int"/>
+   <xsd:element name="map_itsp_id" type="xsd:string" minOccurs="0" nillable="true"/>
+   <xsd:element name="cli_format" type="xsd:string" nillable="1"/>
+   <xsd:element name="cli_prefix" type="xsd:string" nillable="1"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="used_amount_data">
+  <xsd:all>
+   <xsd:element name="amount" type="xsd:string"/>
+   <xsd:element name="reseller_amount" type="xsd:float"/>
+   <xsd:element name="customer_id" type="xsd:int"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="traffic_data">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:traffic_item[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="traffic_item">
+  <xsd:all>
+   <xsd:element name="customer_amount" type="xsd:string"/>
+   <xsd:element name="amount" type="xsd:string"/>
+   <xsd:element name="date" type="xsd:string"/>
+   <xsd:element name="duration" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="CDRNewArray">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:CDRNew[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="Page">
+  <xsd:all>
+   <xsd:element name="limit" type="xsd:string"/>
+   <xsd:element name="offset" type="xsd:string"/>
+   <xsd:element name="total" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="CDRNew">
+  <xsd:all>
+   <xsd:element name="customer_id" type="xsd:int"/>
+   <xsd:element name="source" type="xsd:string"/>
+   <xsd:element name="destination" type="xsd:string"/>
+   <xsd:element name="status" type="xsd:string"/>
+   <xsd:element name="date_gmt" type="xsd:string"/>
+   <xsd:element name="duration" type="xsd:string"/>
+   <xsd:element name="reseller_billed_usd" type="xsd:string"/>
+   <xsd:element name="customer_billed_points" type="xsd:string"/>
+   <xsd:element name="reason" type="xsd:int"/>
+   <xsd:element name="caller_id" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="SMSPage">
+  <xsd:all>
+   <xsd:element name="smslist" type="tns:SMSArray"/>
+   <xsd:element name="pagination" type="tns:Page"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="CDRPage">
+  <xsd:all>
+   <xsd:element name="cdrs" type="tns:CDRNewArray"/>
+   <xsd:element name="pagination" type="tns:Page"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="TollFreeRatesIn">
+  <xsd:all>
+   <xsd:element name="src_prefix" type="xsd:string"/>
+   <xsd:element name="dst_prefix" type="xsd:string"/>
+   <xsd:element name="rate" type="xsd:float"/>
+   <xsd:element name="connect_fee" type="xsd:float"/>
+   <xsd:element name="reject_calls" type="xsd:integer"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="TollFreeRatesListIn">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:TollFreeRatesIn[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="TollFreeRates">
+  <xsd:all>
+   <xsd:element name="src_prefix" type="xsd:string"/>
+   <xsd:element name="dst_prefix" type="xsd:string"/>
+   <xsd:element name="rate" type="xsd:float"/>
+   <xsd:element name="connect_fee" type="xsd:float"/>
+   <xsd:element name="reject_calls" type="xsd:int"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="TollFreeRatesList">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:TollFreeRates[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="RegionsListExt">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:RegionsExt[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="RegionsExt">
+  <xsd:all>
+   <xsd:element name="country_name" type="xsd:string"/>
+   <xsd:element name="country_prefix" type="xsd:string"/>
+   <xsd:element name="country_iso" type="xsd:string"/>
+   <xsd:element name="cities" type="tns:CitiesArrayExt"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="CitiesArrayExt">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:CityExt[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="CityExt">
+  <xsd:all>
+   <xsd:element name="city_id" type="xsd:int"/>
+   <xsd:element name="city_name" type="xsd:string"/>
+   <xsd:element name="city_prefix" type="xsd:string"/>
+   <xsd:element name="city_nxx_prefix" type="xsd:string"/>
+   <xsd:element name="setup" type="xsd:string"/>
+   <xsd:element name="monthly" type="xsd:string"/>
+   <xsd:element name="isavailable" type="xsd:int"/>
+   <xsd:element name="region_id" type="xsd:int"/>
+   <xsd:element name="region_name" type="xsd:string"/>
+   <xsd:element name="islnrrequired" type="xsd:int"/>
+  </xsd:all>
+ </xsd:complexType>
+</xsd:schema>
+</types>
+<message name="didww_getdidwwapidetailsRequest">
+  <part name="auth_string" type="xsd:string"/></message>
+<message name="didww_getdidwwapidetailsResponse">
+  <part name="return" type="tns:api_didwwdata"/></message>
+<message name="didww_getdidwwregionsRequest">
+  <part name="auth_string" type="xsd:string"/>
+  <part name="country_iso" type="xsd:string"/>
+  <part name="city_prefix" type="xsd:string"/>
+  <part name="last_request_gmt" type="xsd:string"/>
+  <part name="city_id" type="xsd:string"/></message>
+<message name="didww_getdidwwregionsResponse">
+  <part name="return" type="tns:RegionsList"/></message>
+<message name="didww_getdidwwcountriesRequest">
+  <part name="auth_string" type="xsd:string"/>
+  <part name="country_iso" type="xsd:string"/></message>
+<message name="didww_getdidwwcountriesResponse">
+  <part name="return" type="tns:CountriesList"/></message>
+<message name="didww_getdidwwcitiesRequest">
+  <part name="auth_string" type="xsd:string"/>
+  <part name="country_iso" type="xsd:string"/>
+  <part name="city_id" type="xsd:string"/>
+  <part name="active" type="xsd:int"/></message>
+<message name="didww_getdidwwcitiesResponse">
+  <part name="return" type="tns:CitiesArray"/></message>
+<message name="didww_getdidwwpstnratesRequest">
+  <part name="auth_string" type="xsd:string"/>
+  <part name="country_iso" type="xsd:string"/>
+  <part name="pstn_prefix" type="xsd:string"/>
+  <part name="last_request_gmt" type="xsd:string"/></message>
+<message name="didww_getdidwwpstnratesResponse">
+  <part name="return" type="tns:RatesList"/></message>
+<message name="didww_updatepstnratesRequest">
+  <part name="auth_string" type="xsd:string"/>
+  <part name="rates" type="tns:RatesListIn"/></message>
+<message name="didww_updatepstnratesResponse">
+  <part name="return" type="tns:GlobalResponse"/></message>
+<message name="didww_checkpstnnumberRequest">
+  <part name="auth_string" type="xsd:string"/>
+  <part name="pstn_number" type="xsd:string"/></message>
+<message name="didww_checkpstnnumberResponse">
+  <part name="return" type="tns:GlobalResponse"/></message>
+<message name="didww_ordercreateRequest">
+  <part name="auth_string" type="xsd:string"/>
+  <part name="customer_id" type="xsd:string"/>
+  <part name="country_iso" type="xsd:string"/>
+  <part name="city_prefix" type="xsd:string"/>
+  <part name="period" type="xsd:int"/>
+  <part name="map_data" type="tns:MappingDataIn"/>
+  <part name="prepaid_funds" type="xsd:string"/>
+  <part name="uniq_hash" type="xsd:string"/>
+  <part name="city_id" type="xsd:string"/>
+  <part name="autorenew_enable" type="xsd:int"/></message>
+<message name="didww_ordercreateResponse">
+  <part name="return" type="tns:service_data"/></message>
+<message name="didww_orderautorenewRequest">
+  <part name="auth_string" type="xsd:string"/>
+  <part name="customer_id" type="xsd:string"/>
+  <part name="did_number" type="xsd:string"/>
+  <part name="period" type="xsd:int"/>
+  <part name="uniq_hash" type="xsd:string"/></message>
+<message name="didww_orderautorenewResponse">
+  <part name="return" type="tns:service_data"/></message>
+<message name="didww_didrestoreRequest">
+  <part name="auth_string" type="xsd:string"/>
+  <part name="customer_id" type="xsd:string"/>
+  <part name="did_number" type="xsd:string"/>
+  <part name="period" type="xsd:int"/>
+  <part name="uniq_hash" type="xsd:string"/>
+  <part name="isrenew" type="xsd:int"/></message>
+<message name="didww_didrestoreResponse">
+  <part name="return" type="tns:GlobalResponse"/></message>
+<message name="didww_ordercancelRequest">
+  <part name="auth_string" type="xsd:string"/>
+  <part name="customer_id" type="xsd:string"/>
+  <part name="did_number" type="xsd:string"/></message>
+<message name="didww_ordercancelResponse">
+  <part name="return" type="tns:GlobalResponse"/></message>
+<message name="didww_updatemappingRequest">
+  <part name="auth_string" type="xsd:string"/>
+  <part name="customer_id" type="xsd:string"/>
+  <part name="did_number" type="xsd:string"/>
+  <part name="map_data" type="tns:MappingDataIn"/></message>
+<message name="didww_updatemappingResponse">
+  <part name="return" type="tns:GlobalResponse"/></message>
+<message name="didww_updateprepaidbalanceRequest">
+  <part name="auth_string" type="xsd:string"/>
+  <part name="customer_id" type="xsd:string"/>
+  <part name="prepaid_funds" type="xsd:string"/>
+  <part name="operation_type" type="xsd:int"/>
+  <part name="uniq_hash" type="xsd:string"/></message>
+<message name="didww_updateprepaidbalanceResponse">
+  <part name="return" type="tns:prepaid_data"/></message>
+<message name="didww_getprepaidbalanceRequest">
+  <part name="auth_string" type="xsd:string"/>
+  <part name="customer_id" type="xsd:string"/></message>
+<message name="didww_getprepaidbalanceResponse">
+  <part name="return" type="tns:prepaid_data"/></message>
+<message name="didww_getprepaidbalancelistRequest">
+  <part name="auth_string" type="xsd:string"/>
+  <part name="customer_id" type="xsd:string"/></message>
+<message name="didww_getprepaidbalancelistResponse">
+  <part name="return" type="tns:PrepaidBalanceList"/></message>
+<message name="didww_getservicedetailsRequest">
+  <part name="auth_string" type="xsd:string"/>
+  <part name="customer_id" type="xsd:string"/>
+  <part name="api_order_id" type="xsd:string"/>
+  <part name="did_number" type="xsd:string"/></message>
+<message name="didww_getservicedetailsResponse">
+  <part name="return" type="tns:service_data"/></message>
+<message name="didww_getservicelistRequest">
+  <part name="auth_string" type="xsd:string"/>
+  <part name="customer_id" type="xsd:string"/></message>
+<message name="didww_getservicelistResponse">
+  <part name="return" type="tns:ServiceDataList"/></message>
+<message name="didww_callhistory_invoicesRequest">
+  <part name="auth_string" type="xsd:string"/>
+  <part name="customer_id" type="xsd:int"/>
+  <part name="from_date" type="xsd:string"/>
+  <part name="to_date" type="xsd:string"/></message>
+<message name="didww_callhistory_invoicesResponse">
+  <part name="return" type="tns:used_amount_data"/></message>
+<message name="didww_getsmslogRequest">
+  <part name="auth_string" type="xsd:string"/>
+  <part name="customer_id" type="xsd:int"/>
+  <part name="from_date" type="xsd:string"/>
+  <part name="to_date" type="xsd:string"/>
+  <part name="destination" type="xsd:string"/>
+  <part name="source" type="xsd:string"/>
+  <part name="success" type="xsd:int"/>
+  <part name="limit" type="xsd:int"/>
+  <part name="offset" type="xsd:int"/>
+  <part name="order" type="xsd:string"/>
+  <part name="order_Dir" type="xsd:string"/></message>
+<message name="didww_getsmslogResponse">
+  <part name="return" type="tns:SMSPage"/></message>
+<message name="didww_order_autorenew_statusRequest">
+  <part name="auth_string" type="xsd:string"/>
+  <part name="customer_id" type="xsd:string"/>
+  <part name="did_number" type="xsd:string"/>
+  <part name="status" type="xsd:int"/></message>
+<message name="didww_order_autorenew_statusResponse">
+  <part name="return" type="tns:GlobalResponse"/></message>
+<message name="didww_pstn_trafficRequest">
+  <part name="auth_string" type="xsd:string"/>
+  <part name="from_date" type="xsd:string"/>
+  <part name="to_date" type="xsd:string"/></message>
+<message name="didww_pstn_trafficResponse">
+  <part name="return" type="tns:traffic_data"/></message>
+<message name="didww_getcdrlogRequest">
+  <part name="auth_string" type="xsd:string"/>
+  <part name="customer_id" type="xsd:string"/>
+  <part name="did_number" type="xsd:string"/>
+  <part name="from_date" type="xsd:string"/>
+  <part name="to_date" type="xsd:string"/>
+  <part name="limit" type="xsd:string"/>
+  <part name="offset" type="xsd:string"/>
+  <part name="order" type="xsd:string"/>
+  <part name="order_Dir" type="xsd:string"/></message>
+<message name="didww_getcdrlogResponse">
+  <part name="return" type="tns:CDRPage"/></message>
+<message name="didww_update_toll_free_dataRequest">
+  <part name="auth_string" type="xsd:string"/>
+  <part name="rates" type="tns:TollFreeRatesListIn"/></message>
+<message name="didww_update_toll_free_dataResponse">
+  <part name="return" type="tns:GlobalResponse"/></message>
+<message name="didww_get_toll_free_dataRequest">
+  <part name="auth_string" type="xsd:string"/></message>
+<message name="didww_get_toll_free_dataResponse">
+  <part name="return" type="tns:TollFreeRatesList"/></message>
+<message name="didww_getcoverageRequest">
+  <part name="auth_string" type="xsd:string"/>
+  <part name="country_iso" type="xsd:string"/>
+  <part name="city_prefix" type="xsd:string"/>
+  <part name="city_id" type="xsd:int"/></message>
+<message name="didww_getcoverageResponse">
+  <part name="return" type="tns:RegionsListExt"/></message>
+<portType name="DIDWWPortType">
+  <operation name="didww_getdidwwapidetails">
+    <input message="tns:didww_getdidwwapidetailsRequest"/>
+    <output message="tns:didww_getdidwwapidetailsResponse"/>
+  </operation>
+  <operation name="didww_getdidwwregions">
+    <input message="tns:didww_getdidwwregionsRequest"/>
+    <output message="tns:didww_getdidwwregionsResponse"/>
+  </operation>
+  <operation name="didww_getdidwwcountries">
+    <input message="tns:didww_getdidwwcountriesRequest"/>
+    <output message="tns:didww_getdidwwcountriesResponse"/>
+  </operation>
+  <operation name="didww_getdidwwcities">
+    <input message="tns:didww_getdidwwcitiesRequest"/>
+    <output message="tns:didww_getdidwwcitiesResponse"/>
+  </operation>
+  <operation name="didww_getdidwwpstnrates">
+    <input message="tns:didww_getdidwwpstnratesRequest"/>
+    <output message="tns:didww_getdidwwpstnratesResponse"/>
+  </operation>
+  <operation name="didww_updatepstnrates">
+    <input message="tns:didww_updatepstnratesRequest"/>
+    <output message="tns:didww_updatepstnratesResponse"/>
+  </operation>
+  <operation name="didww_checkpstnnumber">
+    <input message="tns:didww_checkpstnnumberRequest"/>
+    <output message="tns:didww_checkpstnnumberResponse"/>
+  </operation>
+  <operation name="didww_ordercreate">
+    <input message="tns:didww_ordercreateRequest"/>
+    <output message="tns:didww_ordercreateResponse"/>
+  </operation>
+  <operation name="didww_orderautorenew">
+    <input message="tns:didww_orderautorenewRequest"/>
+    <output message="tns:didww_orderautorenewResponse"/>
+  </operation>
+  <operation name="didww_didrestore">
+    <input message="tns:didww_didrestoreRequest"/>
+    <output message="tns:didww_didrestoreResponse"/>
+  </operation>
+  <operation name="didww_ordercancel">
+    <input message="tns:didww_ordercancelRequest"/>
+    <output message="tns:didww_ordercancelResponse"/>
+  </operation>
+  <operation name="didww_updatemapping">
+    <input message="tns:didww_updatemappingRequest"/>
+    <output message="tns:didww_updatemappingResponse"/>
+  </operation>
+  <operation name="didww_updateprepaidbalance">
+    <input message="tns:didww_updateprepaidbalanceRequest"/>
+    <output message="tns:didww_updateprepaidbalanceResponse"/>
+  </operation>
+  <operation name="didww_getprepaidbalance">
+    <input message="tns:didww_getprepaidbalanceRequest"/>
+    <output message="tns:didww_getprepaidbalanceResponse"/>
+  </operation>
+  <operation name="didww_getprepaidbalancelist">
+    <input message="tns:didww_getprepaidbalancelistRequest"/>
+    <output message="tns:didww_getprepaidbalancelistResponse"/>
+  </operation>
+  <operation name="didww_getservicedetails">
+    <input message="tns:didww_getservicedetailsRequest"/>
+    <output message="tns:didww_getservicedetailsResponse"/>
+  </operation>
+  <operation name="didww_getservicelist">
+    <input message="tns:didww_getservicelistRequest"/>
+    <output message="tns:didww_getservicelistResponse"/>
+  </operation>
+  <operation name="didww_callhistory_invoices">
+    <input message="tns:didww_callhistory_invoicesRequest"/>
+    <output message="tns:didww_callhistory_invoicesResponse"/>
+  </operation>
+  <operation name="didww_getsmslog">
+    <input message="tns:didww_getsmslogRequest"/>
+    <output message="tns:didww_getsmslogResponse"/>
+  </operation>
+  <operation name="didww_order_autorenew_status">
+    <input message="tns:didww_order_autorenew_statusRequest"/>
+    <output message="tns:didww_order_autorenew_statusResponse"/>
+  </operation>
+  <operation name="didww_pstn_traffic">
+    <input message="tns:didww_pstn_trafficRequest"/>
+    <output message="tns:didww_pstn_trafficResponse"/>
+  </operation>
+  <operation name="didww_getcdrlog">
+    <input message="tns:didww_getcdrlogRequest"/>
+    <output message="tns:didww_getcdrlogResponse"/>
+  </operation>
+  <operation name="didww_update_toll_free_data">
+    <input message="tns:didww_update_toll_free_dataRequest"/>
+    <output message="tns:didww_update_toll_free_dataResponse"/>
+  </operation>
+  <operation name="didww_get_toll_free_data">
+    <input message="tns:didww_get_toll_free_dataRequest"/>
+    <output message="tns:didww_get_toll_free_dataResponse"/>
+  </operation>
+  <operation name="didww_getcoverage">
+    <input message="tns:didww_getcoverageRequest"/>
+    <output message="tns:didww_getcoverageResponse"/>
+  </operation>
+</portType>
+<binding name="DIDWWBinding" type="tns:DIDWWPortType">
+  <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <operation name="didww_getdidwwapidetails">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_getdidwwapidetails" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_getdidwwregions">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_getdidwwregions" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_getdidwwcountries">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_getdidwwcountries" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_getdidwwcities">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_getdidwwcities" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_getdidwwpstnrates">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_getdidwwpstnrates" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_updatepstnrates">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_updatepstnrates" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_checkpstnnumber">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_checkpstnnumber" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_ordercreate">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_ordercreate" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_orderautorenew">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_orderautorenew" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_didrestore">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_didrestore" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_ordercancel">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_ordercancel" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_updatemapping">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_updatemapping" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_updateprepaidbalance">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_updateprepaidbalance" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_getprepaidbalance">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_getprepaidbalance" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_getprepaidbalancelist">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_getprepaidbalancelist" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_getservicedetails">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_getservicedetails" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_getservicelist">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_getservicelist" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_callhistory_invoices">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_callhistory_invoices" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_getsmslog">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_getsmslog" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_order_autorenew_status">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_order_autorenew_status" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_pstn_traffic">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_pstn_traffic" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_getcdrlog">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_getcdrlog" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_update_toll_free_data">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_update_toll_free_data" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_get_toll_free_data">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_get_toll_free_data" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+  <operation name="didww_getcoverage">
+    <soap:operation soapAction="http://api.didww.com/api2/index.php/didww_getcoverage" style="rpc"/>
+    <input><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+    <output><soap:body use="encoded" namespace="urn:didww" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+  </operation>
+</binding>
+<service name="DIDWW">
+  <port name="DIDWWPort" binding="tns:DIDWWBinding">
+    <soap:address location="http://api.didww.com/api2/index.php"/>
+  </port>
+</service>
+</definitions>
